@@ -1,0 +1,49 @@
+/*=== HEADER ===*/
+nav {
+  display: flex;
+  justify-content: start;
+  gap: 8px;
+}
+
+nav img {
+  height: 40px;
+}
+
+/*=== MAIN ===*/
+main {
+  background-image: url(assets/img/pokedex-bg.png);
+  min-height: 100vh;
+  background-size: cover;
+  object-fit: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pokedex-content {
+  display: flex;
+  gap: 16px;
+}
+
+.pokedex-card {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #ffffff;
+  border-radius: 16px;
+}
+
+.pokedex-card-info {
+  display: flex;
+  align-items: center;
+}
+
+.pokemon-image {
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.pokedex-icon {
+  height: 40px;
+  width: 40px;
+}
