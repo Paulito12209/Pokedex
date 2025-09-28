@@ -12,8 +12,24 @@
   <body onload="init()">
     <header>
       <nav class="widescreen-1440">
-        <img src="assets/img/pokeball.png" alt="Pokeball Logo" />
-        <h1>The Ultimate Pokedex</h1>
+        <div class="logo-wrapper">
+          <img src="assets/img/pokeball.png" alt="Pokeball Logo" />
+          <h1>The Ultimate Pokédex</h1>
+        </div>
+        <div class="search-wrapper">
+          <div class="search-wrap">
+            <img class="search-icon" src="assets/img/suche.png" alt="Suche" />
+            <input
+              id="search-input"
+              class="search-input body3-fonts"
+              type="text"
+              placeholder="Suche"
+            />
+            <button id="search-close-button" class="search-close-button">
+              X
+            </button>
+          </div>
+        </div>
       </nav>
     </header>
     <main>
@@ -23,15 +39,15 @@
           <div class="pokedex-card">
             <div class="pokedex-card-image">
               <img class="pokedex-icon" src="assets/img/pokedex.png" alt="" />
-              <img class="pokemon-image" src="assets/img/bisasam.png" alt="">
+              <img class="pokemon-image" src="assets/img/bisasam.png" alt="" />
             </div>
             <div id="pokemon-name-info">Details</div>
           </div>
           <!-- Ende Renderfeld -->
         </div>
+        <div id="not-found-message">Pokemon nicht gefunden</div>
       </section>
     </main>
-
   </body>
   <script src="script.js"></script>
 </html>

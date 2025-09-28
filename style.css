@@ -1,9 +1,16 @@
 /*=== HEADER ===*/
 nav {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-wrapper {
+  display: flex;
   gap: 8px;
   padding: 24px;
+  justify-content: center;
+  align-self: center;
 }
 
 nav img {

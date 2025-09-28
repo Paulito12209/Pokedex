@@ -1,32 +1,75 @@
-let api_Url = "https://pokeapi.co/api/v2/pokemon";
-let poke_Name = "/bulbasaur";
-// let poke_name_info = pokemon.forms[0];
+const MAX_POKEMON = 151;
+const list_Wrapper = document.getElementById("main_content");
+const search_Input = document.getElementById("search-input");
+const notFoundMessage = document.getElementById("not-found-message");
 
-let pokemon_Url = api_Url + poke_Name;
-console.log(pokemon_Url);
+let allPokemons = [];
 
-// function init() {
-//   getPokemonName();
-// }
+fetch(`https://pokeapi.co/api/v2/pokemon?limit=${MAX_POKEMON}`)
+  .then((response) => response.json())
+  .then((data) => {
+    allPokemons = data.results;
+    renderPokemons(allPokemons);
+  });
 
-async function getPokemonName() {
-  let response = await fetch(pokemon_Url);
-  let responseAsJson = await response.json();
-  document.getElementById("main_content").innerHTML = "";
-
-  for (let index = 0; index < 3; index++) {
-    // let name = responseAsJson[index].name
-
-    document.getElementById(
-      "main_content"
-    ).innerHTML += `<div class="pokedex-card">
-                        <div class="pokedex-card-image">
-                        <img class="pokedex-icon" src="assets/img/pokedex.png" alt="" />
-                        <img class="pokemon-image" src="assets/img/bisasam.png" alt="">
-                        </div>
-                        <div id="pokemon-name-info">${name} </div>
-                    </div>`;
+async function fetchPokemonData(id) {
+  try {
+    const [pokemon, pokemonSpecies] = await Promise.all([
+      fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then((res) => res.json())
+    ]);
+    return true;
+  } catch (error) {
+    console.error("Failed to fetch Pokemon data before redirect");
   }
 }
 
-getPokemonName();
+function renderPokemons(pokemon) {
+  list_Wrapper.innerHTML = "";
+
+  pokemon.forEach((pokemon) => {
+    const pokemonID = pokemon.url.split("/")[6];
+    const listItem = document.createElement("div");
+    listItem.className = "list-item";
+    listItem.innerHTML = `<div class="number-wrap">
+                            <p class="caption-fonts">#${pokemonID}</p>
+                          </div>
+                          <div class=" img-wrap">
+                            <img src="https://raw.githubusercontent.com/pokeapi/sprites/master/sprites/pokemon/other/dream-world/${pokemonID}.svg" alt="${pokemon.name}" />
+                          </div>
+                          <div class="name-wrap">
+                            <p class="search-font">#${pokemon.name}</p>
+                          </div>`;
+
+    listItem.addEventListener("click", async () => {
+      const success = await fetchPokemonData(pokemonID);
+      if (success) {
+        window.location.href = `./detail.html?id=${pokemonID}`;
+      }
+    });
+
+    list_Wrapper.appendChild(listItem);
+  });
+}
+
+search_Input.addEventListener("keyup", handleSearch);
+
+function handleSearch() {
+  const searchTerm = search_Input.value.toLowerCase();
+  let filteredPokemons;
+
+  renderPokemons(filteredPokemons);
+
+  if (filteredPokemons.length === 0) {
+    notFoundMessage.style.display = "block";
+  } else {
+    notFoundMessage.style.display = "none";
+  }
+}
+
+const closeButton = document.getElementById("search-close-button");
+closeButton.addEventListener("click", clearSearch);
+
+function clearSearch(){
+  search_Input.value = "";
+  
+}
