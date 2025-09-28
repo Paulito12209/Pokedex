@@ -3,51 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="" />
-    <link rel="icon" href="assets/img/pokeball.png" type="img2/x-icon" />
-    <link rel="stylesheet" href="styles/general.css" />
+    <!-- STYLES -->
     <link rel="stylesheet" href="style.css" />
-    <title>Pokedex</title>
+    <link rel="stylesheet" href="styles/general.css" />
+    <link rel="icon" href="assets/img/pokeball-logo.png" type="img2/x-icon" />
+    <title>Pauls Pokedex</title>
   </head>
-  <body onload="init()">
+  <body>
     <header>
-      <nav class="widescreen-1440">
-        <div class="logo-wrapper">
-          <img src="assets/img/pokeball.png" alt="Pokeball Logo" />
-          <h1>The Ultimate Pokédex</h1>
-        </div>
-        <div class="search-wrapper">
-          <div class="search-wrap">
-            <img class="search-icon" src="assets/img/suche.png" alt="Suche" />
-            <input
-              id="search-input"
-              class="search-input body3-fonts"
-              type="text"
-              placeholder="Suche"
-            />
-            <button id="search-close-button" class="search-close-button">
-              X
-            </button>
+      <div class="widescreen">
+        <div class="x-paddings y-paddings navigation">
+          <div class="logo-field">
+            <img src="assets/img/pokeball-logo.png" alt="Pokedex Logo" />
+            <h1>The Ultimate Pokédex</h1>
+          </div>
+          <div class="search-field">
+            <div class="search-bar">
+              <img src="assets/img/search-icon.png" alt="Search Icon" />
+              <input
+                id="search-input"
+                class="search-input"
+                type="text"
+                placeholder="Suche"
+              />
+            </div>
           </div>
         </div>
-      </nav>
+      </div>
     </header>
     <main>
-      <section class="widescreen-1440">
-        <div id="main_content" class="main-content">
-          <!-- Renderfeld -->
-          <div class="pokedex-card">
-            <div class="pokedex-card-image">
-              <img class="pokedex-icon" src="assets/img/pokedex.png" alt="" />
-              <img class="pokemon-image" src="assets/img/bisasam.png" alt="" />
-            </div>
-            <div id="pokemon-name-info">Details</div>
-          </div>
-          <!-- Ende Renderfeld -->
-        </div>
-        <div id="not-found-message">Pokemon nicht gefunden</div>
+      <section class="widescreen">
+        <div class="x-paddings"><div class="pokedex-wrapper"></div></div>
       </section>
     </main>
   </body>
-  <script src="script.js"></script>
 </html>

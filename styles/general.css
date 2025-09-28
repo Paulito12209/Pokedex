@@ -5,9 +5,19 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.widescreen-1440 {
+.widescreen {
   max-width: 1440px;
   margin: 0 auto;
+}
+
+.x-paddings {
+  padding-left: 60px;
+  padding-right: 60px;
+}
+
+.y-paddings {
+  padding-top: 24px;
+  padding-bottom: 24px;
 }
 
 /* FONTS */
