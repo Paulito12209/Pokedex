@@ -5,8 +5,8 @@ let POKE_API_OFFSET = 0;
 let SPRITE_DEFAULT =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
 
-// HTML Position
-let listEl = document.getElementById("pokemon-list");
+// DOM Ablage in der Main Sektion
+let pokemonList = document.getElementById("pokemon-list");
 
 // === INIT ===
 async function init() {
@@ -18,20 +18,20 @@ init();
 // == FETCH ==
 async function fetchPokemons() {
   let url = POKE_API_URL + `?limit=${POKE_API_LIMIT}&offset=${POKE_API_OFFSET}`;
-  let res = await fetch(url);
-  if (!res.ok) {
+  let data = await fetch(url);
+  if (!data.ok) {
     console.error("api error");
     return [];
   }
-  let json = await res.json();
-  return json.results;
+  let dataAsJson = await data.json();
+  return dataAsJson.results;
 }
 
 // === TEMPLATE ===
 function pokemonCardTemplate(name, index) {
-  let imgUrl = SPRITE_DEFAULT + index + ".png";
+  let spriteUrl = SPRITE_DEFAULT + index + ".png";
   return `<div class="pokemon-card">
-       <img src="${imgUrl}" alt="${name}">
+       <img src="${spriteUrl}" alt="${name}">
        <h2>#${index} ⏐ ${name}</h2>
      </div>`;
 }
@@ -41,6 +41,6 @@ function pokemonCardTemplate(name, index) {
 function renderPokemons(pokemons) {
   for (let i = 0; i < pokemons.length; i++) {
     let pokeIndex = i + POKE_API_OFFSET + 1; // Index startet bei 1
-    listEl.innerHTML += pokemonCardTemplate(pokemons[i].name, pokeIndex);
+    pokemonList.innerHTML += pokemonCardTemplate(pokemons[i].name, pokeIndex);
   }
 }
