@@ -1,13 +1,21 @@
-// Variablen
+// === Variablen ===
 let POKE_API_URL = "https://pokeapi.co/api/v2/pokemon";
 let POKE_API_LIMIT = 20; // kann man anpassen
 let POKE_API_OFFSET = 0;
 let SPRITE_DEFAULT =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
 
-// cache DOM refs einmalig per ID
+// HTML Position
 let listEl = document.getElementById("pokemon-list");
 
+// === INIT ===
+async function init() {
+  let pokemons = await fetchPokemons();
+  renderPokemons(pokemons);
+}
+init();
+
+// == FETCH ==
 async function fetchPokemons() {
   let url = POKE_API_URL + `?limit=${POKE_API_LIMIT}&offset=${POKE_API_OFFSET}`;
   let res = await fetch(url);
@@ -19,6 +27,7 @@ async function fetchPokemons() {
   return json.results;
 }
 
+// === TEMPLATE ===
 function pokemonCardTemplate(name, index) {
   let imgUrl = SPRITE_DEFAULT + index + ".png";
   return `<div class="pokemon-card">
@@ -27,20 +36,11 @@ function pokemonCardTemplate(name, index) {
      </div>`;
 }
 
-function renderPokemon(pokemon, index) {
-  // index beginnt bei 0, Pokedex-Index ab 1
-  let pokeIndex = index + POKE_API_OFFSET + 1;
-  listEl.insertAdjacentHTML(
-    "beforeend",
-    pokemonCardTemplate(pokemon.name, pokeIndex)
-  );
-}
-
-async function init() {
-  let pokemons = await fetchPokemons();
+// === RENDER ===
+// Schrittweise anhängen: innerHTML += ...
+function renderPokemons(pokemons) {
   for (let i = 0; i < pokemons.length; i++) {
-    let pokeIndex = i + POKE_API_OFFSET + 1;
+    let pokeIndex = i + POKE_API_OFFSET + 1; // Index startet bei 1
     listEl.innerHTML += pokemonCardTemplate(pokemons[i].name, pokeIndex);
   }
 }
-init();
