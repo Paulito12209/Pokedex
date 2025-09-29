@@ -32,7 +32,7 @@ function pokemonCardTemplate(name, index) {
   let imgUrl = SPRITE_DEFAULT + index + ".png";
   return `<div class="pokemon-card">
        <img src="${imgUrl}" alt="${name}">
-       <h2>${index} ⏐ ${name}</h2>
+       <h2>#${index} ⏐ ${name}</h2>
      </div>`;
 }
 
