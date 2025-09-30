@@ -1,6 +1,6 @@
 // === Variablen ===
 let POKE_API_URL = "https://pokeapi.co/api/v2/pokemon";
-let POKE_API_LIMIT = 20;
+let POKE_API_LIMIT = 151;
 let POKE_API_OFFSET = 0;
 let SPRITE_DEFAULT =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
