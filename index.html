@@ -45,22 +45,57 @@
     <dialog id="pokemon-dialog" class="pokemon-dialog">
       <div class="dialog-wrapper" id="dialog-wrapper">
         <header class="dialog-header">
-          <h2 id="dialog-pokemon-name">Pokemon Name</h2>
+          <div class="dialog-header-box">
+            <h2 id="dialog-pokemon-name">Pokemon Name</h2>
+          </div>
+
           <button onclick="closeDialog()" class="close-button">X</button>
         </header>
-        <div class="dialog-divider"></div>
-        <section class="dialog-content">
-          <p id="dialog-pokemon-id">#1</p>
+
+        <div class="dialog-image-section">
           <img id="dialog-pokemon-image" src="" alt="" />
-          <div id="dialog-pokemon-types" class="dialog-types"></div>
-          <div class="dialog-stats">
-            <p>Height: <span id="dialog-height">0</span></p>
-            <p>Weight: <span id="dialog-weight">0</span></p>
-            <p>HP: <span id="dialog-hp">0</span></p>
-            <p>Attack: <span id="dialog-attack">0</span></p>
-            <p>Defense: <span id="dialog-defense">0</span></p>
+        </div>
+
+        <div class="dialog-info-section">
+          <div class="info-box">
+            <h3>Basic Info</h3>
+            <div class="info-grid">
+              <div class="info-item">
+                <p class="info-label">Type</p>
+                <div
+                  id="dialog-pokemon-types"
+                  class="dialog-types-inline"
+                ></div>
+              </div>
+              <div class="info-item">
+                <p class="info-label">Height</p>
+                <p id="dialog-height" class="info-value">0</p>
+              </div>
+              <div class="info-item">
+                <p class="info-label">Weight</p>
+                <p id="dialog-weight" class="info-value">0</p>
+              </div>
+            </div>
           </div>
-        </section>
+
+          <div class="stats-box">
+            <h3>Stats</h3>
+            <div class="stats-list">
+              <div class="stat-item">
+                <p class="stat-label">HP</p>
+                <p id="dialog-hp" class="stat-value">0</p>
+              </div>
+              <div class="stat-item">
+                <p class="stat-label">Attack</p>
+                <p id="dialog-attack" class="stat-value">0</p>
+              </div>
+              <div class="stat-item">
+                <p class="stat-label">Defense</p>
+                <p id="dialog-defense" class="stat-value">0</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </dialog>
     <footer></footer>

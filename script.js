@@ -73,12 +73,22 @@ function openDialog(pokeIndex) {
   let pokeName = pokemon.name.toUpperCase();
   let spriteUrl = SPRITE_DEFAULT + pokeIndex + ".png";
 
+  // Hintergrundfarbe basierend auf erstem Typ setzen
+  let firstType = pokemon.types[0].type.name;
+  let dialogImageSection = document.querySelector(".dialog-image-section");
+  dialogImageSection.className = "dialog-image-section type-" + firstType;
+
   document.getElementById("dialog-pokemon-name").innerHTML = pokeName;
-  document.getElementById("dialog-pokemon-id").innerHTML = "#" + pokeIndex;
   document.getElementById("dialog-pokemon-image").src = spriteUrl;
   document.getElementById("dialog-pokemon-image").alt = pokeName;
-  document.getElementById("dialog-height").innerHTML = pokemon.height;
-  document.getElementById("dialog-weight").innerHTML = pokemon.weight;
+
+  // Height in Meter umrechnen (API gibt Dezimeter)
+  let heightInMeters = pokemon.height / 10;
+  document.getElementById("dialog-height").innerHTML = heightInMeters + "m";
+
+  // Weight in kg umrechnen (API gibt Hektogramm)
+  let weightInKg = pokemon.weight / 10;
+  document.getElementById("dialog-weight").innerHTML = weightInKg + "kg";
 
   // Stats auslesen
   document.getElementById("dialog-hp").innerHTML = pokemon.stats[0].base_stat;
@@ -87,6 +97,7 @@ function openDialog(pokeIndex) {
   document.getElementById("dialog-defense").innerHTML =
     pokemon.stats[2].base_stat;
 
+  // Typen anzeigen
   let typesContainer = document.getElementById("dialog-pokemon-types");
   typesContainer.innerHTML = "";
   for (let i = 0; i < pokemon.types.length; i++) {
