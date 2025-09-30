@@ -28,25 +28,27 @@ async function fetchPokemonData() {
 }
 
 fetchPokemonData();
-// pokemons dient hier als Platzhalter für 'pokeArray'
+// 'pokemons' dient hier als Platzhalter für 'pokeArray'
 function renderPokemons(pokemons) {
   for (let i = 0; i < pokemons.length; i++) {
-    let pokeName = pokemons[i].name;
+    let pokeName = pokemons[i].name.toUpperCase();
     let pokeIndex = i + POKE_API_OFFSET + 1; // Index startet bei 1
     pokemonList.innerHTML += pokemonCardTemplate(pokeName, pokeIndex);
   }
 }
 
 function pokemonCardTemplate(name, index) {
+  let spriteUrl = SPRITE_DEFAULT + index + ".png";
   return `<div class="pokemon-card">
   <div class="pokemon-card-sprite">
+  <img src="${spriteUrl}" alt="${name}" />
   </div>
   <div class="pokemon-card-info">
     <p>#${index}</p>
     <h2>${name}</h2>
     <div class="pokemon-card-types">
-        <div>Typ 1</div>
-        <div>Typ 2</div>
+        <div class="pokemon-card-type>Typ 1</div>
+        <div class="pokemon-card-type>Typ 2</div>
     </div>
   </div>
 </div>`;
