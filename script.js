@@ -95,7 +95,7 @@ function openDialog(pokeIndex) {
 
   // Hintergrundfarbe basierend auf erstem Typ setzen
   let firstType = pokemon.types[0].type.name;
-  let dialogImageSection = document.querySelector(".dialog-image-section");
+  let dialogImageSection = document.getElementById("dialog-image-section");
   dialogImageSection.className = "dialog-image-section type-" + firstType;
 
   document.getElementById("dialog-pokemon-name").innerHTML = pokeName;
