@@ -31,8 +31,9 @@ async function fetchPokemons() {
 function pokemonCardTemplate(name, index) {
   let spriteUrl = SPRITE_DEFAULT + index + ".png";
   return `<div class="pokemon-card">
-       <img src="${spriteUrl}" alt="${name}">
        <h2>#${index} ⏐ ${name}</h2>
+       <img src="${spriteUrl}" alt="${name}">
+       <p>TYP:</p>
      </div>`;
 }
 
