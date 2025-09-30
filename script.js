@@ -94,10 +94,3 @@ function openDialog(pokeIndex) {
 function closeDialog() {
   dialog.close();
 }
-
-// Event Bubbling wie bei Fotogram
-dialog.addEventListener("click", function (e) {
-  if (!dialogWrapper.contains(e.target)) {
-    dialog.close();
-  }
-});
