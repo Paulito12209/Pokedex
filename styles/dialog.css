@@ -1,0 +1,39 @@
+/* === Pokemon Type Colors === */
+.type-normal { background-color: #A8A878; }
+.type-fire { background-color: #F08030; }
+.type-water { background-color: #6890F0; }
+.type-electric { background-color: #F8D030; }
+.type-grass { background-color: #78C850; }
+.type-ice { background-color: #98D8D8; }
+.type-fighting { background-color: #C03028; }
+.type-poison { background-color: #A040A0; }
+.type-ground { background-color: #E0C068; }
+.type-flying { background-color: #A890F0; }
+.type-psychic { background-color: #F85888; }
+.type-bug { background-color: #A8B820; }
+.type-rock { background-color: #B8A038; }
+.type-ghost { background-color: #705898; }
+.type-dragon { background-color: #7038F8; }
+.type-dark { background-color: #705848; }
+.type-steel { background-color: #B8B8D0; }
+.type-fairy { background-color: #EE99AC; }
+
+/* === DIALOG === */
+.pokemon-dialog {
+  max-width: 600px;
+  max-height: 80vh;
+  border: 4px solid #bbf2f0;
+  border-radius: 16px;
+  padding: 0;
+  margin: auto;
+  background-color: #ffffff;
+}
+
+.pokemon-dialog::backdrop {
+  background-color: rgba(5, 23, 33, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.dialog-wrapper {
+  padding: 24px;
+}
