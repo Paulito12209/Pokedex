@@ -107,11 +107,12 @@ main {
   flex-direction: column;
   justify-content: center;
   padding: 8px;
+  gap: 8px;
 }
 
 .pokemon-card-types {
   display: flex;
-  gap: 8px;
+  gap: 16px;
 }
 
 .pokemon-card-type {
