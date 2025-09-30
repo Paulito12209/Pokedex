@@ -37,16 +37,17 @@ function renderPokemon(pokemon, index) {
   let pokeIndex = index + POKE_API_OFFSET + 1;
   
   // Typen aus dem Array extrahieren
-  let typesHTML = "";
+  let pokeTypes = "";
   for (let i = 0; i < pokemon.types.length; i++) {
-    let typeName = pokemon.types[i].type.name.toUpperCase();
-    typesHTML += `<div class="pokemon-card-type">${typeName}</div>`;
+    let typeName = pokemon.types[i].type.name;
+    let typeNameUpper = typeName.toUpperCase();
+    pokeTypes += `<div class="pokemon-card-type type-${typeName}">${typeNameUpper}</div>`;
   }
   
-  pokemonList.innerHTML += pokemonCardTemplate(pokeName, pokeIndex, typesHTML);
+  pokemonList.innerHTML += pokemonCardTemplate(pokeName, pokeIndex, pokeTypes);
 }
 
-function pokemonCardTemplate(name, index, typesHTML) {
+function pokemonCardTemplate(name, index, types) {
   let spriteUrl = SPRITE_DEFAULT + index + ".png";
   return `<div class="pokemon-card">
     <div class="pokemon-card-sprite">
@@ -56,7 +57,7 @@ function pokemonCardTemplate(name, index, typesHTML) {
       <p>#${index}</p>
       <h2>${name}</h2>
       <div class="pokemon-card-types">
-        ${typesHTML}
+        ${types}
       </div>
     </div>
   </div>`;
