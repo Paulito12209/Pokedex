@@ -27,4 +27,13 @@ nav h1 {
   color: #ee1a24;
 }
 
-.pokemon-card h2 {font-size: 20px;}
+.pokemon-card p {
+  font-size: 18px;
+  color: #818da2;
+}
+
+.pokemon-card h2 {
+  font-size: 20px;
+  color: #2d3748;
+  font-weight: bold;
+}
