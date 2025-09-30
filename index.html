@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="styles/general.css" />
     <link rel="stylesheet" href="styles/pokemon_card.css" />
-    <link rel="stylesheet" href="styles/">
+    <link rel="stylesheet" href="styles/" />
     <!-- FAVICON -->
     <link rel="icon" href="assets/img/pokeball-logo.png" type="img2/x-icon" />
     <title>Pauls Pokedex</title>
@@ -40,26 +40,26 @@
           <div id="pokemon-list" class="pokemon-list"></div>
         </div>
       </section>
-      <!-- Dialog für Pokemon Details -->
-      <dialog id="pokemon-dialog" class="pokemon-dialog">
-        <div class="dialog-wrapper">
-          <header class="dialog-header">
-            <h2 id="dialog-pokemon-name">Pokemon Name</h2>
-            <button onclick="closeDialog()" class="close-button">X</button>
-          </header>
-          <div class="dialog-divider"></div>
-          <section class="dialog-content">
-            <p id="dialog-pokemon-id">#1</p>
-            <img id="dialog-pokemon-image" src="" alt="" />
-            <div id="dialog-pokemon-types" class="dialog-types"></div>
-            <div class="dialog-stats">
-              <p>Height: <span id="dialog-height">0</span></p>
-              <p>Weight: <span id="dialog-weight">0</span></p>
-            </div>
-          </section>
-        </div>
-      </dialog>
     </main>
+    <!-- Dialog für Pokemon Details -->
+    <dialog id="pokemon-dialog" class="pokemon-dialog">
+      <div class="dialog-wrapper" id="dialog-wrapper">
+        <header class="dialog-header">
+          <h2 id="dialog-pokemon-name">Pokemon Name</h2>
+          <button onclick="closeDialog()" class="close-button">X</button>
+        </header>
+        <div class="dialog-divider"></div>
+        <section class="dialog-content">
+          <p id="dialog-pokemon-id">#1</p>
+          <img id="dialog-pokemon-image" src="" alt="" />
+          <div id="dialog-pokemon-types" class="dialog-types"></div>
+          <div class="dialog-stats">
+            <p>Height: <span id="dialog-height">0</span></p>
+            <p>Weight: <span id="dialog-weight">0</span></p>
+          </div>
+        </section>
+      </div>
+    </dialog>
     <footer></footer>
     <script src="script.js"></script>
   </body>
