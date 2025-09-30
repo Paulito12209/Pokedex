@@ -4,6 +4,9 @@ let POKE_API_LIMIT = 151;
 let POKE_API_OFFSET = 0;
 let SPRITE_DEFAULT =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
+let GIF_DEFAULT =
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/";
+let ARTWORK_DEFAULT = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
 
 let pokemonList = document.getElementById("pokemon-list");
 let dialog = document.getElementById("pokemon-dialog");
@@ -39,18 +42,32 @@ async function fetchPokemonData() {
 fetchPokemonData();
 
 function renderPokemon(pokemon, index) {
-  let pokeName = pokemon.name.toUpperCase();
+  let pokeName = pokemon.name;
   let pokeIndex = index + POKE_API_OFFSET + 1;
 
   let pokeTypes = "";
   for (let i = 0; i < pokemon.types.length; i++) {
     let typeName = pokemon.types[i].type.name;
-    let typeNameUpper = typeName.toUpperCase();
-    pokeTypes += `<div class="pokemon-card-type type-${typeName}">${typeNameUpper}</div>`;
+
+    pokeTypes += `<div class="pokemon-card-type type-${typeName}">${typeName}</div>`;
   }
 
   pokemonList.innerHTML += pokemonCardTemplate(pokeName, pokeIndex, pokeTypes);
 }
+
+// function renderPokemon(pokemon, index) {
+//   let pokeName = pokemon.name.toUpperCase();
+//   let pokeIndex = index + POKE_API_OFFSET + 1;
+
+//   let pokeTypes = "";
+//   for (let i = 0; i < pokemon.types.length; i++) {
+//     let typeName = pokemon.types[i].type.name;
+//     let typeNameUpper = typeName.toUpperCase();
+//     pokeTypes += `<div class="pokemon-card-type type-${typeName}">${typeNameUpper}</div>`;
+//   }
+
+//   pokemonList.innerHTML += pokemonCardTemplate(pokeName, pokeIndex, pokeTypes);
+// }
 
 function pokemonCardTemplate(name, index, pokeTypes) {
   let spriteUrl = SPRITE_DEFAULT + index + ".png";
@@ -73,8 +90,8 @@ function pokemonCardTemplate(name, index, pokeTypes) {
 
 function openDialog(pokeIndex) {
   let pokemon = allPokemonDetails[pokeIndex - 1];
-  let pokeName = pokemon.name.toUpperCase();
-  let spriteUrl = SPRITE_DEFAULT + pokeIndex + ".png";
+  let pokeName = pokemon.name;
+  let spriteUrl = GIF_DEFAULT + pokeIndex + ".gif";
 
   // Hintergrundfarbe basierend auf erstem Typ setzen
   let firstType = pokemon.types[0].type.name;
@@ -105,8 +122,8 @@ function openDialog(pokeIndex) {
   typesContainer.innerHTML = "";
   for (let i = 0; i < pokemon.types.length; i++) {
     let typeName = pokemon.types[i].type.name;
-    let typeNameUpper = typeName.toUpperCase();
-    typesContainer.innerHTML += `<div class="pokemon-card-type type-${typeName}">${typeNameUpper}</div>`;
+    // let typeNameUpper = typeName.toUpperCase();
+    typesContainer.innerHTML += `<div class="pokemon-card-type type-${typeName}">${typeName}</div>`;
   }
 
   dialog.showModal();

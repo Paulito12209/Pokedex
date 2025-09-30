@@ -28,12 +28,17 @@ nav h1 {
 }
 
 .pokemon-card p {
-  font-size: 18px;
+  font-size: 16px;
   color: #818da2;
 }
 
 .pokemon-card h2 {
   font-size: 20px;
-  color: #2D3748;
+  color: #2d3748;
   font-weight: bold;
+  text-transform: capitalize;
+}
+
+.dialog-pokemon-name {
+  text-transform: capitalize;
 }

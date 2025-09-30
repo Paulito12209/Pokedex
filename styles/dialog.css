@@ -164,6 +164,7 @@
   font-size: 14px;
   padding: 8px 16px;
   border-radius: 20px;
+  text-transform: capitalize;
 }
 
 .stats-box {

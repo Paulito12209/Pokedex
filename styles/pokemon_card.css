@@ -1,5 +1,5 @@
 .pokemon-card {
-  width: 16%;
+  width: 240px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -37,12 +37,13 @@
   flex-direction: column;
   justify-content: center;
   padding: 16px;
-  gap: 4px;
+  gap: 8px;
 }
 
 .pokemon-card-types {
   display: flex;
   gap: 8px;
+  margin-top: 8px;
 }
 
 .pokemon-card-type {
@@ -50,6 +51,7 @@
   border-radius: 20px;
   color: #fefeff;
   font-size: 14px;
+  text-transform: capitalize;
 }
 
 /* Pokemon Type Colors */
