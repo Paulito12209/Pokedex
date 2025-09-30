@@ -33,7 +33,7 @@ function pokemonCardTemplate(name, index) {
   return `<div class="pokemon-card">
        <h2>#${index} ⏐ ${name}</h2>
        <img src="${spriteUrl}" alt="${name}">
-       <p>TYP:</p>
+       <p>TYP: WIP</p>
      </div>`;
 }
 
