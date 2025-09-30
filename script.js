@@ -80,6 +80,13 @@ function openDialog(pokeIndex) {
   document.getElementById("dialog-height").innerHTML = pokemon.height;
   document.getElementById("dialog-weight").innerHTML = pokemon.weight;
 
+  // Stats auslesen
+  document.getElementById("dialog-hp").innerHTML = pokemon.stats[0].base_stat;
+  document.getElementById("dialog-attack").innerHTML =
+    pokemon.stats[1].base_stat;
+  document.getElementById("dialog-defense").innerHTML =
+    pokemon.stats[2].base_stat;
+
   let typesContainer = document.getElementById("dialog-pokemon-types");
   typesContainer.innerHTML = "";
   for (let i = 0; i < pokemon.types.length; i++) {
@@ -96,7 +103,7 @@ function closeDialog() {
 }
 
 // Event Bubbling wie bei Fotogram
-dialog.addEventListener("click", function(e) {
+dialog.addEventListener("click", function (e) {
   if (!dialogWrapper.contains(e.target)) {
     dialog.close();
   }
