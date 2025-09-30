@@ -40,8 +40,8 @@ function renderPokemon(pokemon, index) {
   let pokeTypes = "";
   for (let i = 0; i < pokemon.types.length; i++) {
     let typeName = pokemon.types[i].type.name;
-    let typeNameUpper = typeName.toUpperCase();
-    pokeTypes += `<div class="pokemon-card-type type-${typeName}">${typeNameUpper}</div>`;
+    let typeNameTag = typeName.toUpperCase();
+    pokeTypes += `<div class="pokemon-card-type type-${typeName}">${typeNameTag}</div>`;
   }
   
   pokemonList.innerHTML += pokemonCardTemplate(pokeName, pokeIndex, pokeTypes);
