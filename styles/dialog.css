@@ -33,8 +33,7 @@
   align-items: center;
   top: 16px;
   right: 16px;
-  /* z-index: 10; */
-  background: transparent; /* ← NEU: Verhindert dass Farbe geerbt wird */
+  background: transparent; /* ← Verhindert dass Farbe geerbt wird */
 }
 
 .dialog-header-box {
@@ -43,10 +42,10 @@
   padding: 8px 12px;
   margin: 16px;
   display: flex;
-  justify-content: space-between; /* Das sorgt für den Abstand */
+  justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  gap: 16px; /* Zusätzlicher Mindestabstand */
+  gap: 16px;
 }
 
 .dialog-header-box h2 {
@@ -55,8 +54,7 @@
   text-transform: uppercase;
   font-weight: bold;
   color: #2d3748;
-  /* flex-grow: 1; Name nimmt verfügbaren Platz */
-  text-align: left; /* Explizit links */
+  text-align: left;
 }
 
 .close-button {
@@ -74,7 +72,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* flex-shrink: 0; Button behält seine Größe */
 }
 
 .close-button:hover {
@@ -161,7 +158,6 @@
 .dialog-types-inline {
   display: flex;
   gap: 16px;
-  /* flex-wrap: wrap; */
 }
 
 .dialog-types-inline .pokemon-card-type {

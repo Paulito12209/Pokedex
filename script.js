@@ -85,11 +85,11 @@ function openDialog(pokeIndex) {
   document.getElementById("dialog-pokemon-image").src = spriteUrl;
   document.getElementById("dialog-pokemon-image").alt = pokeName;
 
-  // Height in Meter umrechnen (API gibt Dezimeter)
+  // Angaben umrechnen (API gibt nur Dezimeter an)
   let heightInMeters = pokemon.height / 10;
   document.getElementById("dialog-height").innerHTML = heightInMeters + "m";
 
-  // Weight in kg umrechnen (API gibt Hektogramm)
+  // (API gibt nur Hektogramm an)
   let weightInKg = pokemon.weight / 10;
   document.getElementById("dialog-weight").innerHTML = weightInKg + "kg";
 
