@@ -54,8 +54,11 @@ function renderPokemon(pokemon, index) {
 
 function pokemonCardTemplate(name, index, pokeTypes) {
   let spriteUrl = SPRITE_DEFAULT + index + ".png";
+  let pokemon = allPokemonDetails[index - 1];
+  let firstType = pokemon.types[0].type.name;
+
   return `<div class="pokemon-card">
-    <div class="pokemon-card-sprite" onclick="openDialog(${index})">
+    <div class="pokemon-card-sprite type-${firstType}" onclick="openDialog(${index})">
       <img src="${spriteUrl}" alt="${name}" />
     </div>
     <div class="pokemon-card-info">

@@ -1,6 +1,6 @@
 /* === DIALOG === */
 .pokemon-dialog {
-  max-width: 420px;
+  max-width: 360px;
   width: 90%;
   max-height: 90vh;
   border: none;
@@ -82,7 +82,7 @@
 }
 
 .dialog-image-section {
-  padding: 60px 40px 40px 40px;
+  padding: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -93,7 +93,14 @@
   width: 220px;
   height: 220px;
   object-fit: contain;
-  background: transparent; /* Kein Hintergrund für das Bild */
+  background-color: rgba(255, 255, 255, 0.3); /* Leicht weißer Kreis */
+  border-radius: 50%;
+  padding: 20px;
+}
+
+.dialog-image-section img:hover {
+  transform: scale(1.25);
+  transition: ease-in 0.4s;
 }
 
 .dialog-info-section {
@@ -153,13 +160,13 @@
 
 .dialog-types-inline {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 16px;
+  /* flex-wrap: wrap; */
 }
 
 .dialog-types-inline .pokemon-card-type {
   font-size: 14px;
-  padding: 6px 16px;
+  padding: 8px 16px;
   border-radius: 20px;
 }
 

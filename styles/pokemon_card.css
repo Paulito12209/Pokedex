@@ -14,17 +14,21 @@
 }
 
 .pokemon-card-sprite {
-  background-color: #f3f4f6;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 16px;
+  min-height: auto;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
-.pokemon-card img {
-  background-color: #d3d4db;
-  height: 90%;
+.pokemon-card-sprite img {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(255, 255, 255, 0.3); /* Transparenter weißer Kreis */
   border-radius: 50%;
-  margin: 8px;
+  padding: 16px;
 }
 
 .pokemon-card-info {
@@ -41,8 +45,8 @@
 }
 
 .pokemon-card-type {
-  padding: 8px;
-  border-radius: 16px;
+  padding: 8px 16px;
+  border-radius: 20px;
   color: #fefeff;
   font-size: 14px;
 }
