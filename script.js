@@ -9,7 +9,9 @@ let pokemonList = document.getElementById("pokemon-list");
 let dialog = document.getElementById("pokemon-dialog");
 let dialogWrapper = document.getElementById("dialog-wrapper");
 let searchInput = document.getElementById("search-input");
-let deleteSearchButton = document.querySelector(".delete-search-input");
+let deleteSearchButton = document.getElementById("delete-search-button");
+let previousButton = document.getElementById("previous-button");
+let nextButton = document.getElementById("next-button");
 let fetchURL =
   POKE_API_URL + `?limit=${POKE_API_LIMIT}&offset=${POKE_API_OFFSET}`;
 
@@ -31,28 +33,23 @@ init();
 
 // === Ereignisabfrage Funktionen ===
 function setupEventListeners() {
-  // Sucheingabe
   searchInput.addEventListener("input", function () {
     filterPokemon();
   });
 
-  // Löschen
   deleteSearchButton.addEventListener("click", function () {
     clearSearch();
   });
 
-  // Dialog Schließen
+  // Dialog schließen bei Klick außerhalb
   dialog.addEventListener("click", function (e) {
     if (!dialogWrapper.contains(e.target)) {
       dialog.close();
     }
   });
 
-  let navigationButtons = document.querySelectorAll(
-    ".dialog-navigation-button"
-  );
-  navigationButtons[0].addEventListener("click", previousPokemon); // Vorherige
-  navigationButtons[1].addEventListener("click", nextPokemon); // Nächste
+  previousButton.addEventListener("click", previousPokemon); // Vorheriges Pokemon
+  nextButton.addEventListener("click", nextPokemon); // Nächstes Pokemon
 }
 
 // === Erste 20 Pokemon laden ===
@@ -105,7 +102,7 @@ function renderPokemon() {
 
   for (let i = 0; i < currentPokemonDetails.length; i++) {
     let pokemon = currentPokemonDetails[i];
-    let pokeName = pokemon.name.toUpperCase();
+    let pokeName = pokemon.name;
     let pokeId = pokemon.id;
 
     let spriteUrl = pokemon.sprites.other["official-artwork"].front_default;
@@ -118,7 +115,7 @@ function renderPokemon() {
     let pokeTypes = "";
     for (let j = 0; j < pokemon.types.length; j++) {
       let typeName = pokemon.types[j].type.name;
-      let typeNameUpper = typeName.toUpperCase();
+      let typeNameUpper = typeName;
       pokeTypes += `<div class="pokemon-card-type type-${typeName}">${typeNameUpper}</div>`;
     }
 
@@ -227,7 +224,7 @@ async function openDialogById(pokeId) {
 }
 
 function showPokemonInDialog(pokemon) {
-  let pokeName = pokemon.name.toUpperCase();
+  let pokeName = pokemon.name;
   let spriteUrl = pokemon.sprites.other["official-artwork"].front_default;
 
   if (!spriteUrl) {
@@ -259,7 +256,7 @@ function showPokemonInDialog(pokemon) {
   typesContainer.innerHTML = "";
   for (let i = 0; i < pokemon.types.length; i++) {
     let typeName = pokemon.types[i].type.name;
-    let typeNameUpper = typeName.toUpperCase();
+    let typeNameUpper = typeName;
     typesContainer.innerHTML += `<div class="pokemon-card-type type-${typeName}">${typeNameUpper}</div>`;
   }
 }
