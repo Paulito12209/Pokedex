@@ -92,7 +92,7 @@
   object-fit: contain;
   background-color: rgba(255, 255, 255, 0.3); /* Leicht weißer Kreis */
   border-radius: 50%;
-  padding: 20px;
+  padding: 8px;
 }
 
 .dialog-image-section img:hover {
@@ -103,9 +103,31 @@
 .dialog-info-section {
   background-color: white;
   border-radius: 32px 32px 0 0;
-  padding: 24px;
+  padding: 16px;
   flex-grow: 1;
   overflow-y: auto;
+}
+
+.dialog-navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.dialog-navigation-button {
+  width: 120px;
+  padding: 4px 8px;
+  border-radius: 16px;
+  border: 2px solid #f0f0f0;
+  color: #2d3748;
+  font-weight: bold;
+  box-shadow: 0 1px 2px rgb(26, 55, 71);
+}
+
+.dialog-navigation-button:hover {
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgb(26, 55, 71);
+  transform: scale(1.05);
 }
 
 .dialog-info-section h2 {
@@ -120,7 +142,7 @@
 .info-box {
   background-color: #f0f0f0;
   padding: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   border-radius: 16px;
 }
 
@@ -173,6 +195,13 @@
   border-radius: 16px;
 }
 
+.stats-box h3 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #2d3748;
+  font-weight: 600;
+}
+
 .stats-list {
   display: flex;
   flex-direction: column;
@@ -183,7 +212,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
   border-bottom: 1px solid #e2e8f0;
 }
 
