@@ -57,6 +57,10 @@ header {
   border-radius: 8px;
 }
 
+.delete-search-input {
+  background-color: white;
+}
+
 /*=== MAIN ===*/
 main {
   background-image: url("assets/img/pokedex-cover.png");

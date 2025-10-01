@@ -29,6 +29,9 @@
                 type="text"
                 placeholder="Suche"
               />
+              <button class="delete-search-input" style="display: none">
+                <img src="assets/img/delete.png" alt="delete-button" />
+              </button>
             </div>
           </div>
         </div>
@@ -46,11 +49,8 @@
       <div class="dialog-wrapper" id="dialog-wrapper">
         <header class="dialog-header">
           <div class="dialog-header-box">
-            <h2 id="dialog-pokemon-name" class="dialog-pokemon-name">
-              Pokemon Name
-            </h2>
+            <h2 id="dialog-pokemon-name">Pokemon Name</h2>
           </div>
-
           <button onclick="closeDialog()" class="close-button">X</button>
         </header>
 
