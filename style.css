@@ -58,7 +58,17 @@ header {
 }
 
 .delete-search-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
   background-color: white;
+  margin-right: 4px;
+}
+
+.delete-search-input img {
+  height: 24px;
+  width: 24px;
 }
 
 /*=== MAIN ===*/
