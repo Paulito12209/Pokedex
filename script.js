@@ -142,47 +142,52 @@ function pokemonCardTemplate(name, pokeId, pokeTypes, pokemon, spriteUrl) {
   </div>`;
 }
 
-// === Filter Function ===
 async function filterPokemon() {
   let searchTerm = searchInput.value.toLowerCase();
-
+  
   if (searchTerm.length > 0) {
     deleteSearchButton.style.display = "flex";
   } else {
     deleteSearchButton.style.display = "none";
   }
-
+  
   if (searchTerm === "") {
     currentPokemonDetails = allPokemonDetails;
     renderPokemon();
     return;
   }
-
+  
+  // WICHTIG: Liste sofort leeren BEVOR wir neue laden
+  currentPokemonDetails = [];
+  pokemonList.innerHTML = ""; // Zeige leere Liste sofort
+  
   if (!isSearchDataLoaded) {
     await loadAllPokemonNames();
   }
-
-  let filteredNames = allPokemonNames.filter(function (pokemon) {
+  
+  let filteredNames = allPokemonNames.filter(function(pokemon) {
     return pokemon.name.toLowerCase().startsWith(searchTerm);
   });
-
-  currentPokemonDetails = [];
-
+  
   for (let i = 0; i < filteredNames.length; i++) {
     try {
       let response = await fetch(filteredNames[i].url);
       let pokemon = await response.json();
-      currentPokemonDetails.push(pokemon);
+      
+      if (searchInput.value.toLowerCase() === searchTerm) {
+        currentPokemonDetails.push(pokemon);
+      }
     } catch (error) {
       console.log("Fehler beim Laden:", error);
     }
   }
-
-  renderPokemon();
+  
+  if (searchInput.value.toLowerCase() === searchTerm) {
+    renderPokemon();
+  }
 }
-
 function clearSearch() {
-  console.log("Clear Search aufgerufen!"); // Debug
+  console.log("Clear Search aufgerufen!"); 
   searchInput.value = "";
   deleteSearchButton.style.display = "none";
   currentPokemonDetails = allPokemonDetails;
