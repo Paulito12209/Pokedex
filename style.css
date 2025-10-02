@@ -117,3 +117,33 @@ main {
   flex-wrap: wrap;
   gap: 12px;
 }
+
+/*== LOAD MORE BUTTON ==*/
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  padding: 32px 0;
+}
+
+.load-more-button {
+  background-color: #73b7c8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgb(154, 189, 208);
+}
+
+.load-more-button:hover {
+  background-color: #91cfdf;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgb(181, 199, 209);
+}
+
+.load-more-button:active {
+  transform: translateY(0px);
+}

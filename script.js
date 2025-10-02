@@ -88,13 +88,12 @@ async function loadAllPokemonNames() {
     );
     let data = await response.json();
 
-    // ALLE Pokemon ohne Filter
     allPokemonNames = data.results;
 
     isSearchDataLoaded = true;
     console.log(`${allPokemonNames.length} Pokemon-Namen geladen!`);
   } catch (error) {
-    console.log("Fehler beim Laden der Pokemon-Namen:", error);
+    console.log("Fehler beim Laden der Pokemon-Namen", error);
   }
 }
 
@@ -165,11 +164,9 @@ async function filterPokemon() {
     return;
   }
 
-  // Liste sofort leeren BEVOR wir neue laden
   currentPokemonDetails = [];
   pokemonList.innerHTML = "";
 
-  // Beim ersten Mal: Alle Namen laden
   if (!isSearchDataLoaded) {
     await loadAllPokemonNames();
   }
@@ -299,7 +296,6 @@ async function nextPokemon() {
 
       currentPokemonDetails.push(nextPokemon);
 
-      // Erhöhe den Index und zeige das neue Pokemon
       currentDialogIndex++;
       showPokemonInDialog(nextPokemon);
     } catch (error) {
@@ -312,4 +308,51 @@ async function nextPokemon() {
 function hideLoadingSpinner() {
   let spinner = document.getElementById("loading-spinner");
   spinner.style.display = "none";
+}
+
+// === Mehr Pokemon laden ===
+async function loadMorePokemon() {
+  let loadMoreButton = document.getElementById("load-more-button");
+  let spinner = document.getElementById("loading-spinner");
+
+  spinner.style.display = "flex";
+
+  loadMoreButton.disabled = true;
+  loadMoreButton.innerHTML = "Lädt...";
+
+  try {
+    POKE_API_OFFSET += POKE_API_LIMIT;
+
+    let newFetchURL =
+      POKE_API_URL + `?limit=${POKE_API_LIMIT}&offset=${POKE_API_OFFSET}`;
+
+    let requestedData = await fetch(newFetchURL);
+    let requestedDataAsJson = await requestedData.json();
+
+    if (!requestedData.ok) {
+      console.log(requestedDataAsJson.description);
+      return;
+    }
+
+    let pokeArray = requestedDataAsJson.results;
+
+    for (let i = 0; i < pokeArray.length; i++) {
+      let detailsResponse = await fetch(pokeArray[i].url);
+      let pokemonDetails = await detailsResponse.json();
+
+      allPokemonDetails.push(pokemonDetails);
+      currentPokemonDetails.push(pokemonDetails);
+    }
+
+    renderPokemon();
+
+    console.log(`Weitere ${pokeArray.length} Pokemon geladen!`);
+  } catch (error) {
+    console.log("Fehler beim Laden weiterer Pokemon", error);
+  } finally {
+    hideLoadingSpinner();
+
+    loadMoreButton.disabled = false;
+    loadMoreButton.innerHTML = "Mehr laden";
+  }
 }
