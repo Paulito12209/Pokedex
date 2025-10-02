@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles/general.css" />
     <link rel="stylesheet" href="styles/pokemon_card.css" />
     <link rel="stylesheet" href="styles/dialog.css" />
+    <link rel="stylesheet" href="styles/responsive.css" />
     <!-- FAVICON -->
     <link rel="icon" href="assets/img/pokeball-logo.png" type="img2/x-icon" />
     <title>Pauls Pokedex</title>
@@ -22,7 +23,7 @@
         <div class="x-paddings y-paddings navigation">
           <div class="logo-field">
             <img src="assets/img/pokeball-logo.png" alt="Pokedex Logo" />
-            <h1>The Ultimate Pokédex</h1>
+            <h1>Super Pokédex</h1>
           </div>
           <div class="search-field">
             <div class="search-bar">
@@ -87,15 +88,18 @@
           </div>
           <div class="info-box">
             <h3>Basic Info</h3>
-            <div class="info-grid">
-              <div class="info-item">
-                <p class="info-label">Height</p>
-                <p id="dialog-height" class="info-value">0</p>
+            <div>
+              <div class="info-items">
+                <div class="info-item">
+                  <p class="info-label">Height</p>
+                  <p id="dialog-height" class="info-value">0</p>
+                </div>
+                <div class="info-item">
+                  <p class="info-label">Weight</p>
+                  <p id="dialog-weight" class="info-value">0</p>
+                </div>
               </div>
-              <div class="info-item">
-                <p class="info-label">Weight</p>
-                <p id="dialog-weight" class="info-value">0</p>
-              </div>
+
               <div class="info-item">
                 <p class="info-label">Type</p>
                 <div
@@ -126,7 +130,7 @@
         </div>
       </div>
     </dialog>
-    <footer></footer>
     <script src="script.js"></script>
+    <script src="scripts/template.js"></script>
   </body>
 </html>

@@ -51,7 +51,7 @@
 .dialog-header-box h2 {
   font-size: 22px;
   margin: 0;
-  text-transform: uppercase;
+  text-transform: capitalize;
   font-weight: bold;
   color: #2d3748;
   text-align: left;
@@ -116,6 +116,7 @@
 
 .dialog-navigation-button {
   width: 120px;
+  font-size: 14px;
   padding: 4px 8px;
   border-radius: 16px;
   border: 2px solid #f0f0f0;
@@ -153,10 +154,10 @@
   font-weight: 600;
 }
 
-.info-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+.info-items {
+  display: flex;
+  gap: 40%;
+  margin-bottom: 16px;
 }
 
 .info-item {
