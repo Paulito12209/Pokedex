@@ -10,8 +10,6 @@ let dialog = document.getElementById("pokemon-dialog");
 let dialogWrapper = document.getElementById("dialog-wrapper");
 let searchInput = document.getElementById("search-input");
 let deleteSearchButton = document.getElementById("delete-search-button");
-let previousButton = document.getElementById("previous-button");
-let nextButton = document.getElementById("next-button");
 let fetchURL =
   POKE_API_URL + `?limit=${POKE_API_LIMIT}&offset=${POKE_API_OFFSET}`;
 
@@ -24,14 +22,15 @@ let currentDialogIndex = 0; // Aktueller Index im Dialog
 // === Initialisierung ===
 async function init() {
   await fetchInitialPokemon();
-  currentPokemonDetails = allPokemonDetails;
+  currentPokemonDetails = [...allPokemonDetails];
   renderPokemon();
+  hideLoadingSpinner();
   setupEventListeners();
 }
 
 init();
 
-// === Ereignisabfrage Funktionen ===
+// === Event Listener Funktionen ===
 function setupEventListeners() {
   searchInput.addEventListener("input", function () {
     filterPokemon();
@@ -41,15 +40,18 @@ function setupEventListeners() {
     clearSearch();
   });
 
-  // Dialog schließen bei Klick außerhalb
+  // Dialog Schließen
   dialog.addEventListener("click", function (e) {
     if (!dialogWrapper.contains(e.target)) {
       dialog.close();
     }
   });
 
-  previousButton.addEventListener("click", previousPokemon); // Vorheriges Pokemon
-  nextButton.addEventListener("click", nextPokemon); // Nächstes Pokemon
+  // Navigation Buttons
+  let previousButton = document.getElementById("previous-button");
+  let nextButton = document.getElementById("next-button");
+  previousButton.addEventListener("click", previousPokemon);
+  nextButton.addEventListener("click", nextPokemon);
 }
 
 // === Erste 20 Pokemon laden ===
@@ -202,11 +204,11 @@ function clearSearch() {
   renderPokemon();
 }
 
-// === Dialog Funktionen ===
+// === Dialog Functions ===
 async function openDialogById(pokeId) {
   let pokemon = currentPokemonDetails.find((p) => p.id === pokeId);
 
-  // Zuweisung des Index im currentPokemonDetails Array
+  // Finde den Index im currentPokemonDetails Array
   currentDialogIndex = currentPokemonDetails.findIndex((p) => p.id === pokeId);
 
   if (!pokemon) {
@@ -297,11 +299,17 @@ async function nextPokemon() {
 
       currentPokemonDetails.push(nextPokemon);
 
-      // Aktualisierung des Index
+      // Erhöhe den Index und zeige das neue Pokemon
       currentDialogIndex++;
       showPokemonInDialog(nextPokemon);
     } catch (error) {
       console.log("Fehler beim Laden des nächsten Pokemons:", error);
     }
   }
+}
+
+// === Loading Spinner ===
+function hideLoadingSpinner() {
+  let spinner = document.getElementById("loading-spinner");
+  spinner.style.display = "none";
 }
