@@ -134,13 +134,14 @@ function renderPokemon() {
 async function filterPokemon() {
   let searchTerm = searchInput.value.toLowerCase();
 
-  // Delete-Button
+  // Delete-Button wird ein & ausgeblendet, wenn Eingabe erfolgt
   if (searchTerm.length > 0) {
     deleteSearchButton.style.display = "flex";
   } else {
     deleteSearchButton.style.display = "none";
   }
 
+  // Wenn Eingabe leer ist, dann wird erneut gerendert und die Arrays werden angeglichen
   if (searchTerm === "") {
     currentPokemonDetails = allPokemonDetails;
     renderPokemon();
@@ -203,6 +204,7 @@ async function openDialogById(pokeId) {
 
   showPokemonInDialog(pokemon);
   dialog.showModal();
+  document.body.style.overflow = "hidden";
 }
 
 function showPokemonInDialog(pokemon) {
