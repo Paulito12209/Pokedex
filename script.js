@@ -1,8 +1,8 @@
 // === Variablen ===
-let POKE_API_URL = "https://pokeapi.co/api/v2/pokemon";
-let POKE_API_LIMIT = 20;
+const POKE_API_URL = "https://pokeapi.co/api/v2/pokemon";
+const POKE_API_LIMIT = 20;
 let POKE_API_OFFSET = 0;
-let SPRITE_DEFAULT =
+const SPRITE_DEFAULT =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
 
 let pokemonList = document.getElementById("pokemon-list");
@@ -17,7 +17,7 @@ let allPokemonDetails = [];
 let currentPokemonDetails = [];
 let allPokemonNames = [];
 let isSearchDataLoaded = false;
-let currentDialogIndex = 0; // Aktueller Index im Dialog
+let currentDialogIndex = 0;
 
 // === Initialisierung ===
 async function init() {
@@ -40,14 +40,16 @@ function setupEventListeners() {
     clearSearch();
   });
 
-  // Dialog Schließen
   dialog.addEventListener("click", function (e) {
     if (!dialogWrapper.contains(e.target)) {
-      dialog.close();
+      closeDialog();
     }
   });
 
-  // Navigation Buttons
+  dialog.addEventListener("close", function () {
+    document.body.style.overflow = "";
+  });
+
   let previousButton = document.getElementById("previous-button");
   let nextButton = document.getElementById("next-button");
   previousButton.addEventListener("click", previousPokemon);
@@ -57,24 +59,12 @@ function setupEventListeners() {
 // === Erste 20 Pokemon laden ===
 async function fetchInitialPokemon() {
   try {
-    let requestedData = await fetch(fetchURL);
-    let requestedDataAsJson = await requestedData.json();
-    if (!requestedData.ok) {
-      console.log(requestedDataAsJson.description);
-      return;
-    }
-    let pokeArray = requestedDataAsJson.results;
+    let response = await fetch(fetchURL);
+    let data = await response.json();
+    if (!response.ok) return;
 
-    for (let i = 0; i < pokeArray.length; i++) {
-      let detailsResponse = await fetch(pokeArray[i].url);
-      let pokemonDetails = await detailsResponse.json();
-      allPokemonDetails.push(pokemonDetails);
-    }
-
-    console.log("Erste 20 Pokemon geladen!");
-  } catch (error) {
-    console.log(error);
-  }
+    await fetchAndStorePokemonDetails(data.results, false);
+  } catch (error) {}
 }
 
 // === Alle Namen laden ===
@@ -82,19 +72,13 @@ async function loadAllPokemonNames() {
   if (isSearchDataLoaded) return;
 
   try {
-    console.log("Lade alle Pokemon-Namen für die Suche...");
     let response = await fetch(
       "https://pokeapi.co/api/v2/pokemon?limit=100000"
     );
     let data = await response.json();
-
     allPokemonNames = data.results;
-
     isSearchDataLoaded = true;
-    console.log(`${allPokemonNames.length} Pokemon-Namen geladen!`);
-  } catch (error) {
-    console.log("Fehler beim Laden der Pokemon-Namen", error);
-  }
+  } catch (error) {}
 }
 
 // === Render Funktion ===
@@ -103,26 +87,12 @@ function renderPokemon() {
 
   for (let i = 0; i < currentPokemonDetails.length; i++) {
     let pokemon = currentPokemonDetails[i];
-    let pokeName = pokemon.name;
-    let pokeId = pokemon.id;
-
-    let spriteUrl = pokemon.sprites.other["official-artwork"].front_default;
-
-    if (!spriteUrl) {
-      spriteUrl =
-        pokemon.sprites.front_default || SPRITE_DEFAULT + pokeId + ".png";
-    }
-
-    let pokeTypes = "";
-    for (let j = 0; j < pokemon.types.length; j++) {
-      let typeName = pokemon.types[j].type.name;
-      let typeNameUpper = typeName;
-      pokeTypes += `<div class="pokemon-card-type type-${typeName}">${typeNameUpper}</div>`;
-    }
+    let spriteUrl = getPokemonSpriteUrl(pokemon);
+    let pokeTypes = generateTypesBadges(pokemon);
 
     pokemonList.innerHTML += pokemonCardTemplate(
-      pokeName,
-      pokeId,
+      pokemon.name,
+      pokemon.id,
       pokeTypes,
       pokemon,
       spriteUrl
@@ -133,136 +103,100 @@ function renderPokemon() {
 // === Filter Funktion ===
 async function filterPokemon() {
   let searchTerm = searchInput.value.toLowerCase();
-  let noResultsMessage = document.getElementById("no-results"); // Holt die "Keine Ergebnisse" Nachricht
+  toggleDeleteButton(searchTerm);
 
-  // Delete-Button wird ein & ausgeblendet, wenn Eingabe erfolgt
-  if (searchTerm.length > 0) {
-    deleteSearchButton.style.display = "flex";
-  } else {
-    deleteSearchButton.style.display = "none";
-  }
-
-  // Wenn Eingabe leer ist, dann wird erneut gerendert und die Arrays werden angeglichen
   if (searchTerm === "") {
-    currentPokemonDetails = allPokemonDetails;
-    noResultsMessage.style.display = "none"; // Verstecke Nachricht bei leerer Suche
-    renderPokemon();
+    handleEmptySearch();
     return;
   }
 
-  
   currentPokemonDetails = [];
   pokemonList.innerHTML = "";
-  noResultsMessage.style.display = "none";
+  toggleNoResultsMessage(false);
 
- 
-  if (!isSearchDataLoaded) {
-    await loadAllPokemonNames();
-  }
+  if (!isSearchDataLoaded) await loadAllPokemonNames();
 
-  let filteredNames = allPokemonNames.filter(function (pokemon) {
-    return pokemon.name.toLowerCase().startsWith(searchTerm);
-  });
+  let filteredNames = allPokemonNames.filter((p) =>
+    p.name.toLowerCase().startsWith(searchTerm)
+  );
+  await fetchFilteredPokemon(filteredNames, searchTerm);
 
-  for (let i = 0; i < filteredNames.length; i++) {
-    try {
-      let response = await fetch(filteredNames[i].url);
-      let pokemon = await response.json();
-
-      if (searchInput.value.toLowerCase() === searchTerm) {
-        currentPokemonDetails.push(pokemon);
-      }
-    } catch (error) {
-      console.log("Fehler beim Laden:", error);
-    }
-  }
-
-  // Rendere Ergebnisse nur wenn Suchbegriff noch aktuell ist
   if (searchInput.value.toLowerCase() === searchTerm) {
-    // Prüfe ob Ergebnisse vorhanden sind
-    if (currentPokemonDetails.length === 0) {
-      noResultsMessage.style.display = "flex"; // Zeige "Keine Ergebnisse" Nachricht
-    } else {
-      noResultsMessage.style.display = "none"; // Verstecke Nachricht bei Ergebnissen
-    }
+    toggleNoResultsMessage(currentPokemonDetails.length === 0);
     renderPokemon();
   }
 }
 
+// == Aushilfs-Funktionen ==
+function toggleDeleteButton(searchTerm) {
+  deleteSearchButton.style.display = searchTerm.length > 0 ? "flex" : "none";
+}
+
+function toggleNoResultsMessage(show) {
+  let noResultsMessage = document.getElementById("no-results");
+  noResultsMessage.style.display = show ? "flex" : "none";
+}
+
+function handleEmptySearch() {
+  currentPokemonDetails = allPokemonDetails;
+  toggleNoResultsMessage(false);
+  renderPokemon();
+}
+
+async function fetchFilteredPokemon(filteredNames, searchTerm) {
+  for (let i = 0; i < filteredNames.length; i++) {
+    try {
+      let response = await fetch(filteredNames[i].url);
+      let pokemon = await response.json();
+      if (searchInput.value.toLowerCase() === searchTerm) {
+        currentPokemonDetails.push(pokemon);
+      }
+    } catch (error) {}
+  }
+}
+
 function clearSearch() {
-  console.log("Clear Search aufgerufen!");
   searchInput.value = "";
   deleteSearchButton.style.display = "none";
-  
   let noResultsMessage = document.getElementById("no-results");
   noResultsMessage.style.display = "none";
-  
   currentPokemonDetails = allPokemonDetails;
   renderPokemon();
 }
 
 // === Dialog Functions ===
 async function openDialogById(pokeId) {
-  let pokemon = currentPokemonDetails.find((p) => p.id === pokeId);
+  let pokemon = await findOrFetchPokemon(pokeId);
+  if (!pokemon) return;
 
-  // Finde den Index im currentPokemonDetails Array
   currentDialogIndex = currentPokemonDetails.findIndex((p) => p.id === pokeId);
+  showPokemonInDialog(pokemon);
+  dialog.showModal();
+  document.body.style.overflow = "hidden";
+}
+
+async function findOrFetchPokemon(pokeId) {
+  let pokemon = currentPokemonDetails.find((p) => p.id === pokeId);
 
   if (!pokemon) {
     try {
       let response = await fetch(POKE_API_URL + "/" + pokeId);
       pokemon = await response.json();
     } catch (error) {
-      console.log("Fehler beim Laden:", error);
-      return;
+      return null;
     }
   }
-
-  showPokemonInDialog(pokemon);
-  dialog.showModal();
-  document.body.style.overflow = "hidden";
+  return pokemon;
 }
 
 function showPokemonInDialog(pokemon) {
-  let pokeName = pokemon.name;
-  let spriteUrl = pokemon.sprites.other["official-artwork"].front_default;
-
-  if (!spriteUrl) {
-    spriteUrl =
-      pokemon.sprites.front_default || SPRITE_DEFAULT + pokemon.id + ".png";
-  }
-
-  let firstType = pokemon.types[0].type.name;
-  let dialogImageSection = document.getElementById("dialog-image-section");
-  dialogImageSection.className = "dialog-image-section type-" + firstType;
-
-  document.getElementById("dialog-pokemon-name").innerHTML = pokeName;
-  document.getElementById("dialog-pokemon-image").src = spriteUrl;
-  document.getElementById("dialog-pokemon-image").alt = pokeName;
-
-  let heightInMeters = pokemon.height / 10;
-  document.getElementById("dialog-height").innerHTML = heightInMeters + "m";
-
-  let weightInKg = pokemon.weight / 10;
-  document.getElementById("dialog-weight").innerHTML = weightInKg + "kg";
-
-  document.getElementById("dialog-hp").innerHTML = pokemon.stats[0].base_stat;
-  document.getElementById("dialog-attack").innerHTML =
-    pokemon.stats[1].base_stat;
-  document.getElementById("dialog-defense").innerHTML =
-    pokemon.stats[2].base_stat;
-
-  let typesContainer = document.getElementById("dialog-pokemon-types");
-  typesContainer.innerHTML = "";
-  for (let i = 0; i < pokemon.types.length; i++) {
-    let typeName = pokemon.types[i].type.name;
-    let typeNameUpper = typeName;
-    typesContainer.innerHTML += `<div class="pokemon-card-type type-${typeName}">${typeNameUpper}</div>`;
-  }
+  let spriteUrl = getPokemonSpriteUrl(pokemon);
+  updateDialogDOM(pokemon, spriteUrl);
 }
 
 function closeDialog() {
   dialog.close();
+  document.body.style.overflow = "";
 }
 
 // === Navigation Funktionen ===
@@ -271,37 +205,35 @@ async function previousPokemon() {
     currentDialogIndex--;
     let pokemon = currentPokemonDetails[currentDialogIndex];
     showPokemonInDialog(pokemon);
-  } else {
-    console.log("Bereits beim ersten Pokemon!");
   }
 }
 
 async function nextPokemon() {
   if (currentDialogIndex < currentPokemonDetails.length - 1) {
     currentDialogIndex++;
-    let pokemon = currentPokemonDetails[currentDialogIndex];
-    showPokemonInDialog(pokemon);
+    showPokemonInDialog(currentPokemonDetails[currentDialogIndex]);
   } else {
-    let currentPokemon = currentPokemonDetails[currentDialogIndex];
-    let nextPokeId = currentPokemon.id + 1;
-
-    try {
-      let response = await fetch(POKE_API_URL + "/" + nextPokeId);
-
-      if (!response.ok) {
-        console.log("Kein weiteres Pokemon verfügbar!");
-        return;
-      }
-
-      let nextPokemon = await response.json();
-
-      currentPokemonDetails.push(nextPokemon);
-
+    let nextPokemon = await loadNextPokemonFromAPI();
+    if (nextPokemon) {
       currentDialogIndex++;
       showPokemonInDialog(nextPokemon);
-    } catch (error) {
-      console.log("Fehler beim Laden des nächsten Pokemons:", error);
     }
+  }
+}
+
+async function loadNextPokemonFromAPI() {
+  let currentPokemon = currentPokemonDetails[currentDialogIndex];
+  let nextPokeId = currentPokemon.id + 1;
+
+  try {
+    let response = await fetch(POKE_API_URL + "/" + nextPokeId);
+    if (!response.ok) return null;
+
+    let nextPokemon = await response.json();
+    currentPokemonDetails.push(nextPokemon);
+    return nextPokemon;
+  } catch (error) {
+    return null;
   }
 }
 
@@ -313,47 +245,38 @@ function hideLoadingSpinner() {
 
 // === Mehr Pokemon laden ===
 async function loadMorePokemon() {
+  setLoadingState(true);
+  try {
+    POKE_API_OFFSET += POKE_API_LIMIT;
+    let newFetchURL =
+      POKE_API_URL + `?limit=${POKE_API_LIMIT}&offset=${POKE_API_OFFSET}`;
+    let response = await fetch(newFetchURL);
+    let data = await response.json();
+
+    if (!response.ok) return;
+
+    await fetchAndStorePokemonDetails(data.results);
+    renderPokemon();
+  } catch (error) {
+  } finally {
+    setLoadingState(false);
+  }
+}
+
+async function fetchAndStorePokemonDetails(pokeArray, addToCurrent = true) {
+  for (let i = 0; i < pokeArray.length; i++) {
+    let response = await fetch(pokeArray[i].url);
+    let pokemonDetails = await response.json();
+    allPokemonDetails.push(pokemonDetails);
+    if (addToCurrent) currentPokemonDetails.push(pokemonDetails);
+  }
+}
+
+function setLoadingState(isLoading) {
   let loadMoreButton = document.getElementById("load-more-button");
   let spinner = document.getElementById("loading-spinner");
 
-  spinner.style.display = "flex";
-
-  loadMoreButton.disabled = true;
-  loadMoreButton.innerHTML = "Lädt...";
-
-  try {
-    POKE_API_OFFSET += POKE_API_LIMIT;
-
-    let newFetchURL =
-      POKE_API_URL + `?limit=${POKE_API_LIMIT}&offset=${POKE_API_OFFSET}`;
-
-    let requestedData = await fetch(newFetchURL);
-    let requestedDataAsJson = await requestedData.json();
-
-    if (!requestedData.ok) {
-      console.log(requestedDataAsJson.description);
-      return;
-    }
-
-    let pokeArray = requestedDataAsJson.results;
-
-    for (let i = 0; i < pokeArray.length; i++) {
-      let detailsResponse = await fetch(pokeArray[i].url);
-      let pokemonDetails = await detailsResponse.json();
-
-      allPokemonDetails.push(pokemonDetails);
-      currentPokemonDetails.push(pokemonDetails);
-    }
-
-    renderPokemon();
-
-    console.log(`Weitere ${pokeArray.length} Pokemon geladen!`);
-  } catch (error) {
-    console.log("Fehler beim Laden weiterer Pokemon", error);
-  } finally {
-    hideLoadingSpinner();
-
-    loadMoreButton.disabled = false;
-    loadMoreButton.innerHTML = "Mehr laden";
-  }
+  spinner.style.display = isLoading ? "flex" : "none";
+  loadMoreButton.disabled = isLoading;
+  loadMoreButton.innerHTML = isLoading ? "Lädt..." : "Mehr laden";
 }
