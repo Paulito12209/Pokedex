@@ -109,6 +109,10 @@
   overflow-y: auto;
 }
 
+.dialog-info-section::-webkit-scrollbar {
+  display: none;
+}
+
 .dialog-navigation-buttons {
   flex-shrink: 0;
   display: flex;

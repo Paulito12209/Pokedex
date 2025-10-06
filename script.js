@@ -133,6 +133,7 @@ function renderPokemon() {
 // === Filter Funktion ===
 async function filterPokemon() {
   let searchTerm = searchInput.value.toLowerCase();
+  let noResultsMessage = document.getElementById("no-results"); // Holt die "Keine Ergebnisse" Nachricht
 
   // Delete-Button wird ein & ausgeblendet, wenn Eingabe erfolgt
   if (searchTerm.length > 0) {
@@ -144,13 +145,17 @@ async function filterPokemon() {
   // Wenn Eingabe leer ist, dann wird erneut gerendert und die Arrays werden angeglichen
   if (searchTerm === "") {
     currentPokemonDetails = allPokemonDetails;
+    noResultsMessage.style.display = "none"; // Verstecke Nachricht bei leerer Suche
     renderPokemon();
     return;
   }
 
+  
   currentPokemonDetails = [];
   pokemonList.innerHTML = "";
+  noResultsMessage.style.display = "none";
 
+ 
   if (!isSearchDataLoaded) {
     await loadAllPokemonNames();
   }
@@ -172,7 +177,14 @@ async function filterPokemon() {
     }
   }
 
+  // Rendere Ergebnisse nur wenn Suchbegriff noch aktuell ist
   if (searchInput.value.toLowerCase() === searchTerm) {
+    // Prüfe ob Ergebnisse vorhanden sind
+    if (currentPokemonDetails.length === 0) {
+      noResultsMessage.style.display = "flex"; // Zeige "Keine Ergebnisse" Nachricht
+    } else {
+      noResultsMessage.style.display = "none"; // Verstecke Nachricht bei Ergebnissen
+    }
     renderPokemon();
   }
 }
@@ -181,6 +193,10 @@ function clearSearch() {
   console.log("Clear Search aufgerufen!");
   searchInput.value = "";
   deleteSearchButton.style.display = "none";
+  
+  let noResultsMessage = document.getElementById("no-results");
+  noResultsMessage.style.display = "none";
+  
   currentPokemonDetails = allPokemonDetails;
   renderPokemon();
 }
